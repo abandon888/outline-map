@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Mode } from '../../types/input';
 import { SymbolKindList, SymbolKindStr, camelToDash, mapIcon } from '../../utils';
-import { Mode } from '../input';
+
 
 export class InputArea extends HTMLElement {
 	private _textarea: HTMLTextAreaElement;

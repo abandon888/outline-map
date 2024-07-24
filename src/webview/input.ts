@@ -2,16 +2,11 @@
 import { SwitchButton } from './components/switchButton';
 import { InputArea } from './components/inputArea';
 import { SymbolKindStr, throttle } from '../utils';
+import { Mode } from '../types/input';
 
 customElements.define('switch-button', SwitchButton);
 customElements.define('input-area', InputArea);
 
-export enum Mode {
-	Nav = '',
-	Normal = '/',
-	Regex = '=',
-	Fuzzy = '?',
-}
 
 const QuickNavKey = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
