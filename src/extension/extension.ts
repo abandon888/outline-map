@@ -32,6 +32,7 @@ export function activate(context: ExtensionContext) {
 	if (config.regionEnabled()) {
 		initRegionSymbolProvider();
 	}
+	console.log('Congratulations, your extension "outline-map" is now active!');
 	const outlineView = new OutlineView({
 		context,
 		workspaceSymbols,
@@ -40,7 +41,7 @@ export function activate(context: ExtensionContext) {
 		regionProvider: config.regionRegisterSymbolProvider() ? undefined : regionSymbolProvider,
 		initialSearch: context.globalState.get('searchField', false),
 	});
-
+	// Register outline view
 	context.subscriptions.push(
 		window.registerWebviewViewProvider('outline-map-view', outlineView),
 		registerDocumentSwitchEvent(outlineView),

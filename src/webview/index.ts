@@ -238,17 +238,17 @@ function renderSymbolNode(symbolNode: SymbolNode, depth = 0): HTMLDivElement {
 	container.style.setProperty('--depth', depth.toString());
 
 	container.innerHTML = /*html*/`
-	  <div class="outline-label">
+	<div class="outline-label">
 		<span class="expand-btn codicon codicon-chevron-right"></span>
-	    <span class="symbol-icon codicon codicon-${mapIcon(symbolNode.kind)}"></span>
+		<span class="symbol-icon codicon codicon-${mapIcon(symbolNode.kind)}"></span>
 		<span class="symbol-text" title="[${symbolNode.kind.toLowerCase()}] ${symbolNode.name} ${symbolNode.detail}">
 			<span class="symbol-name">${symbolNode.name}</span>
 			<span class="symbol-detail">${symbolNode.detail}</span>
 		</span>
 		<span class="diagnostic"></span>
 		<span class="quick-nav"></span>
-	  </div>
-	  <div class="outline-children"></div>
+	</div>
+	<div class="outline-children"></div>
 	`;
 
 	const childrenContainer = container.querySelector('.outline-children') as HTMLDivElement;
