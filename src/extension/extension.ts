@@ -7,14 +7,12 @@ import {
 	TextEditorSelectionChangeEvent,
 	TextEditorVisibleRangesChangeEvent,
 	languages,
-	DiagnosticChangeEvent,
-	Position
-} from 'vscode';
+	DiagnosticChangeEvent} from 'vscode';
 
 import { OutlineView } from './outline';
 
 import { OutlineViewCommandList, WorkspaceCommandList } from './commands';
-import { FocusMsg, PinStatus, ScrollMsg, Sortby } from '../common';
+import { ScrollMsg, Sortby } from '../common';
 import { config } from './config';
 import { debounce, throttle } from '../utils';
 import { WorkspaceSymbols } from './workspace';

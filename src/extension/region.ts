@@ -11,11 +11,7 @@ import {
 	Event,
 	FoldingContext,
 	FoldingRange,
-	SemanticTokensLegend,
-	DocumentSemanticTokensProvider,
 	Position,
-	SemanticTokens,
-	SemanticTokensBuilder,
 	DecorationOptions,
 	TextEditorDecorationType,
 	window,
@@ -28,7 +24,6 @@ import {
 	CompletionList,
 	CompletionItemKind,
 	SnippetString,
-	commands,
 	MarkdownString} from 'vscode';
 import { config } from './config';
 
