@@ -523,6 +523,18 @@
 				"category": "outline-map"
 			},
 			{
+				"command": "outline-map.foldUpAll",
+				"title": "%om.cmd.foldUpAll.title%",
+				"icon": "$(fold-up)",
+				"category": "outline-map"
+			},
+			{
+				"command": "outline-map.foldDownAll",
+				"title": "%om.cmd.foldDownAll.title%",
+				"icon": "$(fold-down)",
+				"category": "outline-map"
+			},
+			{
 				"command": "outline-map.focusSearch",
 				"title": "%om.cmd.focusSearch.title%",
 				"icon": "$(search)",
@@ -778,6 +790,16 @@
 					"command": "outline-map.toggleSearch",
 					"when": "view == outline-map-view",
 					"group": "navigation@3"
+				},
+				{
+					"command": "outline-map.foldUpAll",
+					"when": "view == outline-map-view",
+					"group": "navigation@4"
+				},
+				{
+					"command": "outline-map.foldDownAll",
+					"when": "view == outline-map-view",
+					"group": "navigation@5"
 				}
 			],
 			"view/item/context": [

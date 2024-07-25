@@ -130,6 +130,14 @@ export const OutlineViewCommandList: Command[] = [
 		fn: switchSearchField,
 	},
 	{
+		name:'outline-map.foldUpAll',
+		fn: () => undefined,
+	},
+	{
+		name: 'outline-map.foldDownAll',
+		fn: () => undefined,
+	},
+	{
 		name: 'outline-map.focusSearch',
 		fn: focusSearchField,
 	},
