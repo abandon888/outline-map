@@ -51,6 +51,8 @@
 	"om.cmd.sortByKind.titleChecked": "✓ 按类型排序",
 	"om.cmd.toggleSearch.title": "切换搜索",
 	"om.cmd.focusSearch.title": "聚焦搜索",
+	"om.cmd.foldUpAll.title": "折叠所有",
+	"om.cmd.foldDownAll.title": "展开所有",
 	"om.cmd.workspace.closeFile.title": "关闭文件",
 	"om.cmd.workspace.deleteSymbol.title": "排除此符号",
 	"om.cmd.workspace.excludeInWorkspace.title": "在工作区中排除",
