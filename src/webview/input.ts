@@ -32,6 +32,7 @@ const InputContainerHTML = /*html*/`
 			<switch-button id="fuzzy-switch" name="fuzzy" icon="zap" highlight
 				desc="Fuzzy mode(?)"
 			></switch-button>
+
 		</div>
 	</div>
 	<div class="input-controllers" id="outer-controllers">
@@ -39,6 +40,12 @@ const InputContainerHTML = /*html*/`
 			icon-off="clear-all" icon-on="search"
 			desc="Nav mode, use arrow keys to navigate"
 		></switch-button>
+		<switch-button id="fold-down-switch" name="fold-down" icon="fold-down" highlight
+		desc="fold-down"
+	></switch-button>
+	<switch-button id="fold-up-switch" name="fold-up" icon="fold-up" highlight
+		desc="fold-up"
+	></switch-button>
 	</div>
 </div>
 `;
