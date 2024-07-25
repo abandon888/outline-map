@@ -70,6 +70,19 @@ function focusSearchField(outlineProvider: OutlineView, state: Memento) {
 	} as FocusMsg);
 }
 
+// export
+function foldUpAll(outlineProvider: OutlineView) {
+	outlineProvider.postMessage({
+		type: 'foldUpAll',
+	});
+}
+
+// export
+function foldDownAll(outlineProvider: OutlineView) {
+	outlineProvider.postMessage({
+		type: 'foldDownAll',
+	});
+}
 function setSortBy(outlineProvider: OutlineView, sortBy: Sortby, state: Memento) {
 	state.update('sortBy', sortBy);
 	commands.executeCommand('setContext', 'outline-map.sort-by', sortBy);
@@ -131,11 +144,11 @@ export const OutlineViewCommandList: Command[] = [
 	},
 	{
 		name:'outline-map.foldUpAll',
-		fn: () => undefined,
+		fn: foldUpAll,
 	},
 	{
 		name: 'outline-map.foldDownAll',
-		fn: () => undefined,
+		fn: foldDownAll,
 	},
 	{
 		name: 'outline-map.focusSearch',

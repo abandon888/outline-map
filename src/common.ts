@@ -226,7 +226,7 @@ export class DiagnosticStats {
 }
 
 export interface Msg {
-	type: 'update' | 'config' | 'focus' | 'scroll' | 'changeDepth' | 'pin' | 'goto' | 'clear';
+	type: 'update' | 'config' | 'focus' | 'scroll' | 'changeDepth' | 'pin' | 'goto' | 'clear'| 'foldUpAll' | 'foldDownAll';
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	data: any;
 }
