@@ -6,9 +6,3 @@ declare namespace Input {
     Fuzzy = '?',
   }
 }
-export enum Mode {
-	Nav = '',
-	Normal = '/',
-	Regex = '=',
-	Fuzzy = '?',
-}

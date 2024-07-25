@@ -2,7 +2,6 @@
 import { SwitchButton } from './components/switchButton';
 import { InputArea } from './components/inputArea';
 import { SymbolKindStr, throttle } from '../utils';
-import { Mode } from '../types/input';
 import Searcher from '../services/searcher';
 import { TreeNode } from '../models/treeNode';
 
@@ -11,6 +10,12 @@ customElements.define('input-area', InputArea);
 
 
 export const QuickNavKey = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+export enum Mode {
+	Nav = '',
+	Normal = '/',
+	Regex = '=',
+	Fuzzy = '?',
+}
 
 const InputContainerHTML = /*html*/`
 <div id="input-container">

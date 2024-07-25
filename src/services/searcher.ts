@@ -1,6 +1,6 @@
-import { Mode } from '../types/input';
 import {TreeNode} from '../models/treeNode';
 import { SymbolKindStr } from '../utils';
+import { Mode } from '../webview/input';
 
 interface SearchConfig {
   pattern: string;
