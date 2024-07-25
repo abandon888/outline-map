@@ -3,12 +3,14 @@ import { SwitchButton } from './components/switchButton';
 import { InputArea } from './components/inputArea';
 import { SymbolKindStr, throttle } from '../utils';
 import { Mode } from '../types/input';
+import Searcher from '../services/searcher';
+import { TreeNode } from '../models/treeNode';
 
 customElements.define('switch-button', SwitchButton);
 customElements.define('input-area', InputArea);
 
 
-const QuickNavKey = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+export const QuickNavKey = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 const InputContainerHTML = /*html*/`
 <div id="input-container">
@@ -269,176 +271,5 @@ export class Input {
 		document.querySelector('#outline-root')?.classList.toggle('searching', false);
 	}
 
-}
-
-class TreeNode {
-	children: TreeNode[];
-	parent: TreeNode | null;
-	element: HTMLElement;
-	private matched = true;
-	private matchedChildren = true;
-
-	constructor(element: HTMLDivElement, parent?: TreeNode) {
-		this.element = element;
-		this.parent = parent || null;
-		this.children = [];
-		parent?.addChild(this);
-		const children = element.querySelector('.outline-children');
-		if (!(children?.children)) return;
-		for (const child of Array.from(children.children)) {
-			new TreeNode(child as HTMLDivElement, this);
-		}
-	}
-
-	deconstruct() {
-		this.children.forEach((child) => child.deconstruct());
-		this.children = [];
-		this.parent = null;
-		this.element.classList.remove('matched');
-		this.element.classList.remove('matched-children');
-		this.element.dataset.quickNav = '';
-		const name = this.element.querySelector('.symbol-name');
-		if (name) {
-			name.innerHTML = name.textContent || '';
-		}
-		const keyLabel = this.element.querySelector<HTMLSpanElement>('.quick-nav');
-		if (keyLabel) {
-			keyLabel.style.display = 'none';
-			keyLabel.innerHTML = '';
-		}
-	}
-
-
-	setQuickNavKey(quickNavs: Map<string, TreeNode>) {
-		if (quickNavs.size >= QuickNavKey.length) return;
-		if (this.matched) {
-			const key = QuickNavKey[quickNavs.size];
-			quickNavs.set(key, this);
-			this.element.dataset.quickNav = key;
-			const keyLabel = this.element.querySelector<HTMLSpanElement>('.quick-nav');
-			if (keyLabel) {
-				keyLabel.style.display = 'inline-block';
-				keyLabel.innerHTML = key;
-			}
-		}
-		if (this.matchedChildren) {
-			this.children.forEach((child) => child.setQuickNavKey(quickNavs));
-		}
-	}
-
-	match(search: RegExp | string, symbol: SymbolKindStr | null = null) {
-		if (!this.matched) return false;
-		if (symbol && symbol !== this.element.dataset.kind) {
-			this.matched = false;
-			this.element.classList.toggle('matched', false);
-			return false;
-		}
-		const name = this.element.querySelector('.symbol-name')!;
-		if (!name.textContent) return false;
-		if (search instanceof RegExp) {
-			const matched = name.textContent.match(search);
-			if (matched) {
-				name.innerHTML = name.textContent?.replace(search, `<b>${matched[0]}</b>`) || '';
-			}
-			this.matched = !!matched;
-		}
-		else {
-			// use automatic case insensitive
-			// if there is uppercase in search, use case sensitive
-			const isCaseSensitive = search.toLowerCase() !== search;
-			let matched;
-			let str;
-			if (isCaseSensitive) {
-				matched = name.textContent.indexOf(search);
-				str = search;
-			}
-			else {
-				matched = name.textContent.toLowerCase().indexOf(search.toLowerCase());
-				str = name.textContent.substring(matched, matched + search.length);
-			}
-			
-			if (matched !== -1) {
-				name.innerHTML = name.textContent?.replace(str, `<b>${str}</b>`) || '';
-			}
-			this.matched = matched !== -1;
-		}
-		
-		this.element.classList.toggle('matched', this.matched);
-		return this.matched;
-	}
-
-	setMatchedChildren(matched: boolean) {
-		this.matchedChildren = matched;
-		this.element.classList.toggle('matched-children', matched);
-	}
-
-	addChild(child: TreeNode) {
-		this.children.push(child);
-	}
-
-}
-
-interface SearchConfig {
-	pattern: string,
-	mode: Mode,
-	filter: SymbolKindStr | null,
-}
-
-class Searcher {
-	private tree: TreeNode;
-	private searchReg: RegExp | string | null = null;
-
-	foundAny = false;
-
-	constructor(root: HTMLDivElement, init: SearchConfig) {
-		this.tree = new TreeNode(root);
-		this.search(init);
-	}
-
-	search(config: SearchConfig) {
-		const isCaseSensitive = config.pattern.toLowerCase() !== config.pattern;
-		switch (config.mode) {
-		case Mode.Normal:
-			this.searchReg = config.pattern;
-			break;
-		case Mode.Regex:
-			try {
-				this.searchReg = new RegExp(config.pattern, isCaseSensitive ? 'u' : 'ui');
-			} catch (e) {
-				this.searchReg = null;
-			}
-			break;
-		case Mode.Fuzzy:
-			this.searchReg = new RegExp(config.pattern.split('').join('.*?'), isCaseSensitive ? 'u' : 'ui');
-			break;
-		default:
-			this.searchReg = null;
-			break;
-		}
-		if (this.searchReg) {
-			this.foundAny = this.searchTree(this.tree, this.searchReg, config.filter);
-		}
-	}
-
-	private searchTree(node: TreeNode, search: RegExp | string, symbol: SymbolKindStr | null = null): boolean {
-		const matched = node.match(search, symbol);
-		let matchedChildren = false;
-		for (const child of node.children) {
-			const matched = this.searchTree(child, search, symbol);
-			matchedChildren = matchedChildren || matched;
-		}
-		node.setMatchedChildren(matchedChildren);
-		return matched || matchedChildren;
-	}
-
-	setQuickNavKey() {
-		const quickNavs = new Map<string, TreeNode>();
-		this.tree.setQuickNavKey(quickNavs);
-		return quickNavs;
-	}
-
-	deconstruct() {
-		this.tree.deconstruct();
-	}
 }
 
